@@ -1,8 +1,8 @@
-import java.util.Arrays;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * day2_file_read
@@ -21,9 +21,7 @@ public class day2_file_read {
 						.toArray(Integer[]::new);
 				data.add(line_data);
 				for (Integer i : line_data) {
-					System.out.print(i + " ");
 				}
-				System.out.println();
 				line = reader.readLine();
 			}
 			reader.close();
