@@ -22,7 +22,7 @@ class day5 {
 		try (BufferedReader reader = new BufferedReader(new FileReader("input.txt"))) {
 			String line = reader.readLine();
 
-			while (line != null) {
+			while (line != "") {
 				try {
 					String[] parts = line.split("\\|");
 					int[] rule = new int[parts.length];
@@ -31,7 +31,7 @@ class day5 {
 					}
 					rules.add(rule);
 				} catch (NumberFormatException e) {
-					e.printStackTrace();
+					break;
 				}
 				line = reader.readLine();
 			}
