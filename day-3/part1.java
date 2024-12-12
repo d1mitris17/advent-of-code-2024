@@ -5,76 +5,73 @@ import java.util.ArrayList;
  */
 public class part1 {
 
-	public static ArrayList<String> clean_data(ArrayList<String> data) {
-
-		ArrayList<String> cleaned_data = new ArrayList<String>();
+	public static int getTotalFromMul(ArrayList<String> data) {
+		int total = 0;
 
 		for (String line : data) {
-			line = line.replace(" ", "");
 			int i = 0;
-			while (i < line.length()) {
-				if (line.charAt(i) == 'm') {
-					int max = i + 11;
-
+			while (i < (line.length() - 6)) {
+				// check if found "mul("
+				if ((line.substring(i, i + 4).equals("mul("))) {
+					int max = i + 12;
+					// if the line is shorter than the max length, set max to the length of the line
 					if (max >= line.length()) {
-						max = line.length() - 1;
-					}
-					int current = i + 7;
-
-					while (line.charAt(current) != ')' && current < max) {
-						current += 1;
-					}
-					if (is_valid(line.substring(i, current + 1))) {
-						cleaned_data.add(line.substring(i, current + 1));
-						i = current;
+						max = line.length();
 					}
 
+					// set the right bracket to the 7th character after the 'm' as it is the minimum
+					int rightB = i + 7;
+
+					// if the line is shorter than the initial right bracket, move to a new line
+					if (rightB >= line.length()) {
+						System.out.println("Error: Line is too short");
+						System.out.println(line.substring(i, max));
+						break;
+					}
+
+					// find the right bracket
+					while (rightB < max && line.charAt(rightB) != ')') {
+						rightB += 1;
+					}
+
+					// if the right bracket is not found, move to the next character in the line
+					if (rightB >= max || line.charAt(rightB) != ')') {
+						System.out.println("Error: Right bracket not found");
+						System.out.println(line.substring(i, max));
+						i++;
+						continue;
+					}
+
+					int commaI = rightB - 2;
+					while (commaI > i + 4 && line.charAt(commaI) != ',') {
+						commaI -= 1;
+					}
+
+					if (commaI <= i + 4) {
+						System.out.println("Error: Comma not found");
+						System.out.println(line.substring(i, max));
+						i++;
+						continue;
+					}
+
+					try {
+						int n1 = Integer.parseInt(line.substring(i + 4, commaI));
+						int n2 = Integer.parseInt(line.substring(commaI + 1, rightB));
+
+						total += (n1 * n2);
+						i = rightB + 1;
+					} catch (NumberFormatException e) {
+						System.out.println("Error: Arithmetic error");
+						System.out.println(line.substring(i, max));
+						i++;
+					}
+
+				} else {
+					i++;
 				}
-				i++;
 			}
 		}
-		return cleaned_data;
-	}
-
-	private static boolean is_valid(String s) {
-		System.out.println("currrent checking: " + s);
-
-		if (s.length() <= 6) {
-			return false;
-		}
-		System.out.println("Its length is good");
-		if (!(s.substring(0, 3).equals("mul"))) {
-			return false;
-		}
-		System.out.println("Its mul is good");
-		if (s.charAt(3) != '(') {
-			return false;
-		}
-		System.out.println("Its ( is good");
-		int commaI = s.length() - 1;
-		while (s.charAt(commaI) != ',' && commaI > 4) {
-			commaI -= 1;
-		}
-		System.out.println("Its , is good");
-		if (commaI == 4) {
-			return false;
-		}
-		System.out.println("Its commaI is good");
-		for (int i = 4; i < commaI; i++) {
-			if (!(Character.isDigit(s.charAt(i))))
-				return false;
-		}
-		System.out.println("Its first part is good");
-		for (int i = (commaI + 1); i < (s.length() - 1); i++) {
-			System.out.println("s.charAt(i): " + s.charAt(i));
-			if (!(Character.isDigit(s.charAt(i))))
-				return false;
-		}
-		System.out.println("Its second part is good");
-		System.out.println("");
-		System.out.println("");
-
-		return true;
+		return total;
 	}
 
 }
