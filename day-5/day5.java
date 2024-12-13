@@ -9,13 +9,16 @@ class day5 {
 
 	public static void main(String[] args) {
 		readFile();
-		for (int i = 0; i < pageNumbers.size(); i++) {
-			for (int j = 0; j < pageNumbers.get(i).length; j++) {
-				System.out.print(pageNumbers.get(i)[j] + ", ");
-			}
-			System.out.println();
-		}
-
+		/*
+		 * for (int i = 0; i < pageNumbers.size(); i++) {
+		 * for (int j = 0; j < pageNumbers.get(i).length; j++) {
+		 * System.out.print(pageNumbers.get(i)[j] + ", ");
+		 * }
+		 * System.out.println();
+		 * }
+		 */
+		int correctPages = getValidPages();
+		System.out.println(correctPages);
 	}
 
 	public static void readFile() {
