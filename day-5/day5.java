@@ -56,4 +56,38 @@ class day5 {
 			e.printStackTrace();
 		}
 	}
+
+	public static HashMap<Integer, Integer> convertToMap(int[] arr) {
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int i = 0; i < arr.length; i++) {
+			map.put(arr[i], i);
+		}
+		return map;
+	}
+
+	public static boolean checkRule(ArrayList<int[]> rules, int[] pageNumbers) {
+		HashMap<Integer, Integer> map = convertToMap(pageNumbers);
+		for (int i = 0; i < rules.size(); i++) {
+			int[] rule = rules.get(i);
+			int first = rule[0];
+			int second = rule[1];
+			if (map.containsKey(first) && map.containsKey(second)) {
+				if (map.get(first) > map.get(second)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public static int getValidPages() {
+		int count = 0;
+		for (int i = 0; i < pageNumbers.size(); i++) {
+			if (checkRule(rules, pageNumbers.get(i))) {
+				int middleIndex = Math.floorDiv(pageNumbers.get(i).length, 2);
+				count += pageNumbers.get(i)[middleIndex];
+			}
+		}
+		return count;
+	}
 }
