@@ -52,7 +52,7 @@ class day5 {
 				line = reader.readLine();
 			}
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
